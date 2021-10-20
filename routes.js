@@ -5,6 +5,52 @@ const perguntas = require('./controllers/perguntas');
 const pesquisa = require('./controllers/pesquisa');
 const clientes = require('./controllers/clientes');
 const venom = require('./controllers/venom');
+const time = require('./config/dataHora');
+const conexao = require("./conexao");
+
+
+//Midd Lewares
+function validarLogin(req, res, next) {
+    console.log(time(), "Validando Login");
+    const usuario = req.body.usuario;
+    const senha = req.body.senha;
+    const sql = `SELECT * FROM usuarios WHERE usuario = '${usuario}' AND senha = '${senha}';`;
+
+    conexao.query(sql, function (err, result, fields) {
+        if (err) {
+            console.log(time(), "Erro ao bucar no BD");
+            return res.status(200).json({
+                error: true,
+                code: 404,
+                msg: "Erro ao Buscar no Banco de Dados",
+                err: err
+            });
+        } else {
+            const resposta = JSON.parse(JSON.stringify(result));
+            //console.log(time(),resposta[0]);
+            if (resposta.length === 0) {
+                console.log(time(), "Login Invalido");
+                return res.status(200).json({
+                    error: "true",
+                    code: 401,
+                    msg: "Usuário ou senha inválidos"
+                });
+            } else if (resposta.length === 1) {
+                console.log(time(), "Login OK");
+                return res.status(200).json({
+                    error: "false",
+                    code: 200,
+                    msg: "LOGIN OK",
+                    resposta: resposta[0]
+                });
+            }
+
+        }
+    });
+
+}
+
+
 const routes = new Router();
 
 // usuarios
@@ -34,5 +80,8 @@ routes.get('/mostrar_clientes/:id', clientes.mostrar);
 routes.post('/cadastrar_clientes', clientes.cadastrar);
 routes.put('/editar_clientes', clientes.editar);
 routes.delete('/deletar_clientes/:id', clientes.deletar);
+
+//LOGIN
+routes.post('/login/', validarLogin);
 
 module.exports = routes;

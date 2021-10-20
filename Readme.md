@@ -45,3 +45,8 @@ Criar Tabela de usuários
         -titulo varchar(200) not null
         -pergunta text not null
         -data_hora current timestamp
+
+        Para alterar a tabela pesquisa em SQL
+        ALTER TABLE pesquisas ADD resposta int(2) AFTER pergunta;
+        ALTER TABLE pesquisas ADD cliente varchar(200) AFTER usuario;
+        ALTER TABLE pesquisas ADD idchat varchar(200) AFTER cliente;

@@ -9,6 +9,6 @@ conexao.connect(function (err) {
         console.log(temp(), "Conectado no Banco de Dados!");
     }
 });
-app.listen(0800, () => {
+app.listen(5000, () => {
     console.log(temp(), "Servidor iniciado na porta 8081");
 });
