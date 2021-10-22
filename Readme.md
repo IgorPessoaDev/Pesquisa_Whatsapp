@@ -50,3 +50,4 @@ Criar Tabela de usuários
         ALTER TABLE pesquisas ADD resposta int(2) AFTER pergunta;
         ALTER TABLE pesquisas ADD cliente varchar(200) AFTER usuario;
         ALTER TABLE pesquisas ADD idchat varchar(200) AFTER cliente;
+        ALTER TABLE pesquisas ADD finalizado varchar(3) DEFAULT 'nao';

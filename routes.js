@@ -83,5 +83,7 @@ routes.delete('/deletar_clientes/:id', clientes.deletar);
 
 //LOGIN
 routes.post('/login/', validarLogin);
+routes.post('/enviar_pesquisa', venom.enviar);
+routes.post('/zap_valido', venom.zap_valido);
 
 module.exports = routes;
