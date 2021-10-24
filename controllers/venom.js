@@ -22,6 +22,16 @@ function msg(numero, msg) {
         });
 }
 
+async function localizacao(numero) {
+    await envio.sendLocation(numero, '-14.1971', '-41.6693 14', 'Brumado Bahia Brasil')
+        .then((result) => {
+            console.log(time(), 'Resultado: ', result); //return object success
+        })
+        .catch((erro) => {
+            console.error(time(), 'Deu erro na localização: ', erro); //return object error
+        });
+}
+
 function verifica_numero(numero) {
     return new Promise((resolve, reject) => {
         let sql = `SELECT * FROM pesquisas WHERE idchat="${numero}"`;
@@ -43,6 +53,18 @@ async function chamar(numero, mensagem) {
         if (res.length === 1) {
             if (res[0].finalizado == 'sim') {
                 msg(numero, mensagem_ja_respondeu);
+                envio.sendImage(
+                    numero,
+                    'img/correto.png',
+                    'correto.png',
+                    'Obrigado pela participação !!'
+                )
+                    .then((result) => {
+                        console.log('Result: ', result); //return object success
+                    })
+                    .catch((erro) => {
+                        console.error('Error when sending: ', erro); //return object error
+                    });
             }
             // Se o cliente participa da pesquisa e ainda não respondeu corretamente
             else {
@@ -64,14 +86,36 @@ async function chamar(numero, mensagem) {
                         if (err) {
                             console.log(time(), "Erro ao gravar no BD", err);
                         } else {
-                            msg(numero, mensagem_agradecendo);
+                            envio.sendImage(
+                                numero,
+                                'img/correto.png',
+                                'correto.png',
+                                msg(numero, mensagem_agradecendo)
+                            )
+                                .then((result) => {
+                                    console.log('Result: ', result); //return object success
+                                })
+                                .catch((erro) => {
+                                    console.error('Error when sending: ', erro); //return object error
+                                });
                             console.log(time(), "Respota Gravada no BD");
                         }
                     });
                 }
                 //Se a resposta NÃO for válida
                 else {
-                    msg(numero, mensagem_resp_errada);
+                    envio.sendImage(
+                        numero,
+                        'img/errado.png',
+                        'Errado.png',
+                        msg(numero, mensagem_resp_errada)
+                    )
+                        .then((result) => {
+                            console.log('Result: ', result); //return object success
+                        })
+                        .catch((erro) => {
+                            console.error('Error when sending: ', erro); //return object error
+                        });
                 }
                 //Zerar as variáveis
                 resp_correta = false;
@@ -83,6 +127,7 @@ async function chamar(numero, mensagem) {
         // Se o número não participa da pesquisa
         else {
             msg(numero, mensagem_padrao);
+            localizacao(numero);
         }
     }).catch((er) => {
         console.log(time(), er);
