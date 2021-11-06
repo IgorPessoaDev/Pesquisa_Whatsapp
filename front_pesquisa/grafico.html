@@ -6,7 +6,7 @@
   <!-- Não indexa página-->
   <meta name="robots" content="noindex">
   <meta charset="UTF-8">
-  <title>Pesquisas Realizadas</title>
+  <title>Resultados obtidos</title>
   <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon/micks-favico-32x32-1.png">
   <link rel="stylesheet" href="assets/css/style-menu.css">
   <link href="assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -24,7 +24,6 @@
   <link rel="stylesheet" href="radar.css">
   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.3/datatables.min.css" />
   <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.3/datatables.min.js"></script>
-</head>
 
 <body>
 
@@ -59,7 +58,7 @@
       <li>
         <a href="grafico.html"><i class='bx bx-line-chart'></i><span class="link_name">Gráfico</span></a>
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="graficos.html">Gráfico</a></li>
+          <li><a class="link_name" href="grafico.html">Gráfico</a></li>
         </ul>
       </li>
       <li>
@@ -85,25 +84,14 @@
 
   <div class="home-section">
     <div class="container-fluid">
-      <h1 class="h3 mb-2 text-gray-800" id="msg"><i class='bx bx-task'></i> Pesquisas Realizadas</h1>
+      <h1 class="h3 mb-2 text-gray-800" id="msg"><i class='bx bx-task'></i> Pesquisas feitas</h1>
       <div class="card shadow mb-4">
         <div class="card-header py-3">
           <div class="card-body">
             <!-- INICIO - Coloque todo seu HTML Aqui -->
-            <table id="tabela" class="table table-hover">
-              <thead>
-                <tr>
-                  <th scope="col">#</th>
-                  <th scope="col">Emissor</th>
-                  <th scope="col">Titulo</th>
-                  <th scope="col">Pergunta</th>
-                  <th scope="col">Qtd clientes</th>
-                  <th scope="col">Data de envio</th>
-                </tr>
-              </thead>
-              <tbody id="corpo">
-              </tbody>
-            </table>
+            <div style="float: right">
+              <canvas id="cvs" width="600" height="250">[No canvas support]</canvas>
+            </div>
             <!-- FIM - Coloque todo seu HTML Aqui -->
           </div>
         </div>
@@ -114,40 +102,15 @@
   <script src="assets/js/data_tables.js"></script>
   <script src="assets/js/notify.js"></script>
   <script>
-
-    const login = sessionStorage.login;
-    const ip = sessionStorage.ip;
     // Coloque todo seu JavaScript aqui.
     function sair() {
       sessionStorage.login = 'NOT';
       sessionStorage.ip = '...';
       location.replace("index.html");
     }
-    if (login != 'OK') {
-      setTimeout(function () {
-        location.replace("index.html");
-      }, 0500);
-    } else {
-      // Se o login for OK, faça as requisições
-      axios.get(`${ip}listar_pesquisas_realizadas`).then((resolve) => {
-        var table = "";
-        for (let index = 0; index < resolve.data.resultado.length; index++) {
-          table = table + `<tr>
-                            <td>${index + 1}</td>
-                            <td>${resolve.data.resultado[index].usuario}</td>
-                            <td>${resolve.data.resultado[index].topico}</td>
-                            <td>${resolve.data.resultado[index].pergunta}</td>
-                            <td>${resolve.data.resultado[index].qtd_clientes}</td>
-                            <td>${resolve.data.resultado[index].data}</td>
-                          </tr>`;
-        };
-        document.getElementById('corpo').innerHTML = table;
-        $('#tabela').DataTable();
-      }).catch((error) => {
-        console.error(error);
-      });
 
-    }
+
+
 
   </script>
 </body>

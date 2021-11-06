@@ -4,6 +4,7 @@ const usuarios = require('./controllers/usuarios');
 const perguntas = require('./controllers/perguntas');
 const pesquisa = require('./controllers/pesquisa');
 const clientes = require('./controllers/clientes');
+const pesquisas_realizadas = require('./controllers/pesquisas_realizadas');
 const venom = require('./controllers/venom');
 const time = require('./config/dataHora');
 const conexao = require("./conexao");
@@ -81,8 +82,12 @@ routes.post('/cadastrar_clientes', clientes.cadastrar);
 routes.put('/editar_clientes', clientes.editar);
 routes.delete('/deletar_clientes/:id', clientes.deletar);
 
+//Pesquisas realizadas
+routes.get('/listar_pesquisas_realizadas', pesquisas_realizadas.listar);
+routes.post('/cadastrar_pesquisas_realizadas', pesquisas_realizadas.cadastrar);
+
 //LOGIN
-routes.post('/login/', validarLogin);
+routes.post('/login', validarLogin);
 routes.post('/enviar_pesquisa', venom.enviar);
 routes.post('/zap_valido', venom.zap_valido);
 

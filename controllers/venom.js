@@ -52,12 +52,11 @@ async function chamar(numero, mensagem) {
         // Se o número participa da pesquisa
         if (res.length === 1) {
             if (res[0].finalizado == 'sim') {
-                msg(numero, mensagem_ja_respondeu);
                 envio.sendImage(
                     numero,
                     'img/correto.png',
                     'correto.png',
-                    'Obrigado pela participação !!'
+                    msg(numero, mensagem_ja_respondeu)
                 )
                     .then((result) => {
                         console.log('Result: ', result); //return object success
@@ -120,8 +119,6 @@ async function chamar(numero, mensagem) {
                 //Zerar as variáveis
                 resp_correta = false;
                 nota = 0;
-
-
             }
         }
         // Se o número não participa da pesquisa
